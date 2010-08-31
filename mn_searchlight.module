@@ -20,6 +20,48 @@ function mn_searchlight_feeds_plugins() {
   return $info;
 }
 
+// Implementation of hook_feeds_importer_default_alter
 function mn_searchlight_feeds_importer_default_alter($items) {
-  $items['syndication']->config['processor']['plugin_key'] = 'SearchlightDataProcessor';
+  if (isset($items['syndication'])) {
+    $items['syndication']->config['processor']['plugin_key'] = 'SearchlightDataProcessor';
+  }
+}
+
+// Implementation of hook_views_default_views_alter
+function mn_searchlight_views_default_views_alter($items) {
+  if (isset($items['mn_news'])) {
+    foreach($items['mn_news']->display as $key => $display) {
+      // If the display is using the usual search replace it with the searchlight
+      // filters.
+      if (isset($display->display_options['filters']['keys'])) {
+        unset($display->display_options['filters']['keys']);
+        $display->display_options['filters']['search'] = array(
+          'operator' => '=',
+          'value' => '',
+          'group' => '0',
+          'exposed' => TRUE,
+          'expose' => array(
+            'operator' => '',
+            'identifier' => 'search',
+            'label' => '',
+            'optional' => 1,
+            'single' => 1,
+            'remember' => 0,
+          ),
+          'hideEmpty' => 0,
+          'matchMode' => '0',
+          'id' => 'search',
+          'table' => 'searchlight',
+          'field' => 'search',
+          'relationship' => 'none',
+        );
+        $display->display_options['filters']['facets'] = array(
+          'id' => 'facets',
+          'table' => 'searchlight',
+          'field' => 'facets',
+        );
+        $items['mn_news']->display[$key] = $display;
+      }
+    }
+  }
 }
