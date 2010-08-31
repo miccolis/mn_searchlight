@@ -11,7 +11,8 @@ those for Managing News and Searchlight.
 * expose channels as facets
 * proper handling of "deleted" content.
 * use searchlight for the graphs
-
+* fix saved searches
+* remove search index status block
 
 [1]: http://github.com/yhahn/searchlight
 [2]: http://drupal.org/project/managingnews
