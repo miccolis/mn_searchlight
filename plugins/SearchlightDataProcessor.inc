@@ -16,8 +16,8 @@ class SearchlightDataProcessor extends FeedsDataProcessor {
 
     $table = $this->tableName();
 
-    $result = db_query("SELECT f.id FROM $table f
-       LEFT JOIN searchlight_search s ON f.id = s.id
+    $result = db_query("SELECT f.id FROM {". $table ."} f
+       LEFT JOIN {searchlight_search} s ON f.id = s.id
        WHERE (s.type = '%s' OR s.type IS NULL) AND s.id IS NULL", $table);
 
     while ($id = db_result($result)) {
@@ -30,7 +30,19 @@ class SearchlightDataProcessor extends FeedsDataProcessor {
    */
   public function clear(FeedsBatch $batch, FeedsSource $source) {
     parent::clear($batch, $source);
-    // db_query("DELETE FROM {searchlight_search} WHERE  
-  }
 
+    $table = $this->tableName();
+
+    $result = db_query("SELECT s.id FROM {searchlight_search} s
+       LEFT JOIN { ". $table  ."} f ON s.id = f.id
+       WHERE (s.type = '%s') AND f.id IS NULL", $table);
+
+    while ($id = db_result($result)) {
+      $ids[] = $id;
+    }
+
+    if ($cnt = count($ids)) {
+      db_query("DELETE FROM {searchlight_search} WHERE id IN (" . implode(',', array_fill(0, $cnt), '%d') .")", $ids);
+    }
+  }
 }

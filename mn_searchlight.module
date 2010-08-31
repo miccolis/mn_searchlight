@@ -24,3 +24,7 @@ function mn_searchlight_feeds_plugins() {
   );
   return $info;
 }
+
+function mn_searchlight_feeds_importer_default_alter($items) {
+  $items['syndication']->config['processor']['plugin_key'] = 'SearchlightDataProcessor';
+}
