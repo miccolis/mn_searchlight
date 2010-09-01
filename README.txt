@@ -7,12 +7,11 @@ those for Managing News and Searchlight.
 
 ## TODO
 
-* expose taxonomy terms as facets
-* expose channels as facets
+* remove search index status block
+* fix saved searches
 * proper handling of "deleted" content.
 * use searchlight for the graphs
-* fix saved searches
-* remove search index status block
+* expose channels as facets
 
 [1]: http://github.com/yhahn/searchlight
 [2]: http://drupal.org/project/managingnews

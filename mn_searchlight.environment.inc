@@ -19,6 +19,13 @@ function mn_searchlight_searchlight_default_environments() {
       'granularity' => 'month',
       'date_format' => 'F, Y',
     ),
+    'term_data_data_taxonomy_tid' => array(
+      'enabled' => 1,
+      'weight' => '0',
+      'label' => '',
+      'items' => '5',
+      'count_method' => 'shallow',
+    ),
     'search_query' => array(
       'enabled' => 1,
       'weight' => '0',

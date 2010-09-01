@@ -35,6 +35,24 @@ function mn_searchlight_searchlight_default_datasources() {
       'name' => 'feeds_data_syndication_timestamp',
       'usage' => 'attribute',
     ),
+    'term_data_data_taxonomy_tid' => array(
+      'label_field' => array(
+        'label' => 'Taxonomy: Term (name)',
+        'datatype' => 'text',
+        'table' => 'term_data',
+        'field' => 'name',
+        'name' => 'term_data_data_taxonomy_name',
+        'usage' => 'multivalue',
+      ),
+      'base_table' => 'feeds_data_syndication',
+      'view' => 'mn_searchlight_term_facet:searchlight_multivalue_1',
+      'label' => 'Taxonomy: Term (tid)',
+      'datatype' => 'int',
+      'table' => 'term_data',
+      'field' => 'tid',
+      'name' => 'term_data_data_taxonomy_tid',
+      'usage' => 'multivalue',
+    ),
   );
   $searchlight_datasource->filters = array();
   $searchlight_datasource->options = array(
