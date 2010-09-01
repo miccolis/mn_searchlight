@@ -7,7 +7,6 @@ those for Managing News and Searchlight.
 
 ## TODO
 
-* remove search index status block
 * fix saved searches
 * proper handling of "deleted" content.
 * use searchlight for the graphs

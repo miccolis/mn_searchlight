@@ -65,3 +65,49 @@ function mn_searchlight_views_default_views_alter($items) {
     }
   }
 }
+
+// Implementation of hook_context_default_alter
+function mn_searchlight_context_default_contexts_alter($items) {
+  if (isset($items['mn-section-search-notrash'])) {
+    unset($items['mn-section-search-notrash']->reactions['block']['blocks']['mn_search-status']);
+    $items['mn-section-search-notrash']->reactions['block']['blocks']['mn_searchlight-status'] = array(
+      'module' => 'mn_searchlight',
+      'delta' => 'status',
+      'region' => 'right',
+      'weight' => 0,
+    );
+  }
+}
+
+// Implementation of hook_block
+function mn_searchlight_block($op = 'list', $delta = null) {
+  if ($op == 'list') {
+    $blocks = array();
+    $blocks['status']['info'] = t('Searchlight index status');
+    return $blocks;
+  }
+  elseif ($op == 'view' && user_access('administer mn')) {
+    if ($env = searchlight_environment_load('mn_searchlight_syndication')) {
+      $result = db_query("SELECT count(id) AS count, status
+        FROM {searchlight_search} WHERE type = '%s'
+        GROUP BY status", $env->datasource->base_table);
+
+      $indexed = 0;
+      $total = 0;
+      while ($row = db_fetch_object($result)) {
+        $indexed = $row->status == 1 ? $row->count : $indexed;
+        $total = $total + $row->count;
+      }
+      $remaining = $total - $indexed;
+
+      // Only show the block if there are items to be indexed.
+      if ($remaining > 0) {
+        $percentage = ((int)min(100, 100 * ($total - $remaining) / max(1, $total))) .'%';
+        $label = t('Search index');
+        $suffix = t('complete');
+        $output = "<label>{$label}</label> <strong>{$percentage}</strong> {$suffix}";
+        return array('content' => $output);
+      }
+    }
+  }
+}
