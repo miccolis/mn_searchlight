@@ -14,7 +14,14 @@ function mn_searchlight_context_default_contexts() {
   $context->conditions = array(
     'views' => array(
       'values' => array(
-        'mn_news' => 'mn_news',
+        'mn_news:page_2' => 'mn_news:page_2',
+      ),
+    ),
+    'views_modes' => array(
+      'values' => array(
+        'default' => 'default',
+        'views-mode-list' => 'views-mode-list',
+        'views-mode-map' => 'views-mode-map',
       ),
     ),
   );

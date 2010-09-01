@@ -9,6 +9,7 @@ those for Managing News and Searchlight.
 
 * fix saved searches
 * proper handling of "deleted" content.
+* css for the search status block like core MN
 * use searchlight for the graphs
 * expose channels as facets
 
