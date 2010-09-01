@@ -2,6 +2,15 @@
 
 include('mn_searchlight.features.inc');
 
+// Implementation of hook_menu_alter
+function mn_searchlight_menu_alter($items) {
+  if (isset($items['mark/%mark/%/%'])) {
+    $item =& $items['mark/%mark/%/%'];
+    array_unshift($item['page arguments'], $item['page callback']);
+    $item['page callback'] = 'mn_searchlight_mark_vote';
+  }
+}
+
 // Implementation of hook_feeds_plugins
 function mn_searchlight_feeds_plugins() {
   $path = drupal_get_path('module', 'mn_searchlight') .'/plugins';
@@ -110,4 +119,16 @@ function mn_searchlight_block($op = 'list', $delta = null) {
       }
     }
   }
+}
+
+/**
+ * Wrapper around the mark ajax callback which marks content as updated.
+ */
+function mn_searchlight_mark_vote($callback, $mark, $content_type, $content_id) {
+  $output = $callback($mark, $content_type, $content_id);
+  $headers = drupal_get_headers();
+  if (strpos($headers, '403 Forbidden') !== 0) {
+    db_query("UPDATE {searchlight_search} SET status = 0 WHERE type = '%s' AND id = '%s'", $content_type, $content_id);
+  }
+  return $output;
 }
