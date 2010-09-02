@@ -22,11 +22,3 @@ function mn_searchlight_ctools_plugin_api() {
   }
 }
 
-/**
- * Implementation of hook_views_api().
- */
-function mn_searchlight_views_api() {
-  return array(
-    'api' => '2',
-  );
-}

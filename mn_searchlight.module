@@ -2,6 +2,15 @@
 
 include('mn_searchlight.features.inc');
 
+/**
+ * Implementation of hook_views_api().
+ */
+function mn_searchlight_views_api() {
+  return array(
+    'api' => '2',
+  );
+}
+
 // Implementation of hook_menu_alter
 function mn_searchlight_menu_alter($items) {
   if (isset($items['mark/%mark/%/%'])) {
@@ -87,6 +96,17 @@ function mn_searchlight_context_default_contexts_alter($items) {
       'module' => 'mn_searchlight',
       'delta' => 'status',
       'region' => 'right',
+      'weight' => 0,
+    );
+  }
+
+  if (isset($items['mn-section-search'])) {
+    unset($items['mn-section-search']->reactions['block']['blocks']['views-mn_search_saved-block_2']);
+    unset($items['mn-section-search']->reactions['block']['blocks']['stored_views-save']);
+    $items['mn-section-search']->reactions['block']['blocks']['searchlight-facets_mn_searchlight_syndication'] = array(
+      'module' => 'searchlight',
+      'delta' => 'facets_mn_searchlight_syndication',
+      'region' => 'left',
       'weight' => 0,
     );
   }
