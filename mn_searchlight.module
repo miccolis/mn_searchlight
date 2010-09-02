@@ -5,9 +5,13 @@ include('mn_searchlight.features.inc');
 // Implementation of hook_menu_alter
 function mn_searchlight_menu_alter($items) {
   if (isset($items['mark/%mark/%/%'])) {
-    $item =& $items['mark/%mark/%/%'];
-    array_unshift($item['page arguments'], $item['page callback']);
-    $item['page callback'] = 'mn_searchlight_mark_vote';
+    array_unshift($items['mark/%mark/%/%']['page arguments'], $items['mark/%mark/%/%']['page callback']);
+    $items['mark/%mark/%/%']['page callback'] = 'mn_searchlight_mark_vote';
+  }
+
+  if (isset($items['data-taxonomy/ajax-save'])) {
+    array_unshift($items['data-taxonomy/ajax-save']['page arguments'], $items['data-taxonomy/ajax-save']['page callback']);
+    $items['data-taxonomy/ajax-save']['page callback'] = 'mn_searchlight_term_ajax_save';
   }
 }
 
@@ -131,4 +135,20 @@ function mn_searchlight_mark_vote($callback, $mark, $content_type, $content_id) 
     db_query("UPDATE {searchlight_search} SET status = 0 WHERE type = '%s' AND id = '%s'", $content_type, $content_id);
   }
   return $output;
+}
+
+/**
+ * Wrapper around data_taxonomy's ajax callback. However this function leaves
+ * a bit to be desired;
+ *
+ * - we cannot detect if the request is sucessful, so we invalidate even for
+ *   failed tagging operations.
+ * - for the moment the 'type' is hard coded, we should be able to detect this.
+ *
+ */
+function mn_searchlight_term_ajax_save($callback) {
+  if (!empty($_POST) && is_numeric($_POST['id'])) {
+    db_query("UPDATE {searchlight_search} SET status = 0 WHERE type = '%s' AND id = '%s'", 'feeds_data_syndication', $_POST['id']);
+  }
+  return $callback();
 }
