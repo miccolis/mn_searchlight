@@ -108,13 +108,48 @@ function mn_searchlight_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler = $view->new_display('searchlight_multivalue', 'Tags', 'searchlight_multivalue_1');
-  $handler->override_option('searchlight_multivalue', array(
-    'field' => 'term_data_data_taxonomy_tid',
-    'label_field' => 'term_data_data_taxonomy_name',
-  ));
 
+  foreach (taxonomy_get_vocabularies() as $vocab) {
+    $identifier = !empty($vocab->module) && $vocab->module !== 'taxonomy' ? $vocab->module : $vocab->vid;
+    $identifier = strtr($identifier, ' -:', '___');
+
+    /* Display: Vocabulary */
+    $handler = $view->new_display('searchlight_multivalue', $vocab->name, 'searchlight_multivalue_'. $identifier);
+    $handler->override_option('searchlight_multivalue', array(
+      'field' => 'term_data_data_taxonomy_tid',
+      'label_field' => 'term_data_data_taxonomy_name',
+      'override' => array(
+        'name' => 'term_data_tid_'. $identifier,
+        'label' => $vocab->name,
+      ),
+    ));
+
+    // If Views can handle the Taxonomy vocab module field for supporting
+    // exportable vocabularies, use it.
+    $data = views_fetch_data('vocabulary');
+    if (isset($data['module']) && !is_numeric($identifier)) {
+      $handler->override_option('filters', array(
+        'module' => array(
+          'id' => 'module',
+          'table' => 'vocabulary',
+          'field' => 'module',
+          'value' => array($vocab->module => $vocab->module),
+          'relationship' => 'tid',
+        ),
+      ));
+    }
+    else {
+      $handler->override_option('filters', array(
+        'vid' => array(
+          'id' => 'vid',
+          'table' => 'term_data',
+          'field' => 'vid',
+          'value' => array($vocab->vid => $vocab->vid),
+          'relationship' => 'tid',
+        ),
+      ));
+    }
+  }
   $views[$view->name] = $view;
-
   return $views;
 }
