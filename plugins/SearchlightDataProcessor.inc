@@ -42,7 +42,7 @@ class SearchlightDataProcessor extends FeedsDataProcessor {
     }
 
     if ($cnt = count($ids)) {
-      db_query("DELETE FROM {searchlight_search} WHERE id IN (" . implode(',', array_fill(0, $cnt), '%d') .")", $ids);
+      db_query("DELETE FROM {searchlight_search} WHERE id IN (" . implode(',', array_fill(0, $cnt, '%d')) .")", $ids);
     }
   }
 }
