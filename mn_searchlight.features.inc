@@ -17,6 +17,9 @@ function mn_searchlight_ctools_plugin_api() {
   elseif ($module == "searchlight" && $api == "environment") {
     return array("version" => 1);
   }
+  elseif ($module == "strongarm" && $api == "strongarm") {
+    return array("version" => 1);
+  }
 }
 
 /**
