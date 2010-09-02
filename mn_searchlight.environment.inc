@@ -19,13 +19,6 @@ function mn_searchlight_searchlight_default_environments() {
       'granularity' => 'month',
       'date_format' => 'F, Y',
     ),
-    'term_data_data_taxonomy_tid' => array(
-      'enabled' => 1,
-      'weight' => '0',
-      'label' => '',
-      'items' => '5',
-      'count_method' => 'shallow',
-    ),
     'search_query' => array(
       'enabled' => 1,
       'weight' => '0',
@@ -33,6 +26,21 @@ function mn_searchlight_searchlight_default_environments() {
       'items' => 1,
     ),
   );
+
+  $view = views_get_view('mn_searchlight_term_facet');
+  foreach ($view->display as $display) {
+    if ($display->display_plugin == 'searchlight_multivalue') {
+      $options = $display->display_options['searchlight_multivalue'];
+      $searchlight_environment->facets[$options['override']['name']] = array(
+        'enabled' => 1,
+        'weight' => '0',
+        'label' => $options['override']['label'],
+        'items' => '5',
+        'count_method' => 'shallow',
+      );
+    }
+  }
+
   $searchlight_environment->options = array(
     'facets_label' => 'Search facets',
   );
