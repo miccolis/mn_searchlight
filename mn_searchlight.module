@@ -172,3 +172,24 @@ function mn_searchlight_term_ajax_save($callback) {
   }
   return $callback();
 }
+
+/**
+ * Theme business =========================================
+ */
+
+// Implementation of hook_theme_registry_alter
+function mn_searchlight_theme_registry_alter($items) {
+  // We need to move our preprocess to the end of the line so that it's 
+  // blown away.
+  $pos = array_search('mn_searchlight_preprocess_block', $items['block']['preprocess functions']);
+  unset($items['block']['preprocess functions'][$pos]);
+  array_push($items['block']['preprocess functions'], 'mn_searchlight_preprocess_block');
+}
+
+// Preprocess for blocks.
+function mn_searchlight_preprocess_block(&$vars) {
+  $bid = "{$vars['block']->module}-{$vars['block']->delta}";
+  if ($bid == 'mn_searchlight-status') {
+    $vars['attr']['class'] .= " utility-block";
+  }
+}
