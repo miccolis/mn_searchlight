@@ -1,0 +1,81 @@
+/**
+ * Collapsibility. See bekwai.js.
+ */
+.block-searchlight .item-list {
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  background:#e8e8e8;
+  border:1px solid #ddd;
+  margin:0px 0px 5px;
+  }
+
+  .block-searchlight .expanded { background: #fff; }
+
+.block-searchlight .item-list h3 {
+  background:url(images/sprite.png) 100% -500px no-repeat;
+  font-size:13px;
+  color:#444;
+  border:0px;
+  cursor:pointer;
+  text-transform:none;
+  }
+
+  .block-searchlight .expanded h3 {
+    background:transparent;
+    border-bottom:1px solid #eee;
+    }
+
+
+.block-searchlight div.item-list ul li:first-child,
+.block-searchlight div.item-list ul li:last-child {
+  border-color:#eee;
+  padding:4px 4px 4px 9px;
+  }
+
+.block-searchlight div.item-list ul li {
+  /* IE 8 Doesn't understand when we have this rule combined with :X-child */
+  border-color:#eee;
+  padding:4px 4px 4px 9px;
+  } 
+
+.block-searchlight .item-list ul { display:none; }
+
+.block-searchlight .item-list .searchlight-facet-active,
+.block-searchlight .expanded ul { display:block; }
+
+.block-searchlight .item-list .depth-1 { padding-left:10px; }
+.block-searchlight .item-list .depth-2 { padding-left:20px; }
+.block-searchlight .item-list .depth-3 { padding-left:30px; }
+
+.searchlight-facet {
+  position:relative;
+  padding-right:30px;
+  }
+
+.searchlight-facet .remove,
+.searchlight-facet .count {
+  position:absolute;
+  right:0px;
+  top:0px;
+  margin: 0px;
+  }
+
+  .searchlight-facet .remove a {
+    background:url(images/sprite.png) 0% -530px no-repeat;
+    display:block;
+    width:20px;
+    height:20px;
+    text-indent:-999px;
+    overflow:hidden;
+    }
+
+  .searchlight-facet .count {
+    background:#eef4f8;
+    padding:0px 8px;
+    font-weight:bold;
+    font-size:9px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    }
+
+

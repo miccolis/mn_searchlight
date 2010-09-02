@@ -2,9 +2,13 @@
 
 include('mn_searchlight.features.inc');
 
-/**
- * Implementation of hook_views_api().
- */
+// Implementation of hook_init.
+function mn_search_init() {
+  drupal_add_css(drupal_get_path('module', 'mn_searchlight') .'/mn_searchlight.css');
+  drupal_add_js(drupal_get_path('module', 'mn_searchlight') .'/bekwai.js');
+}
+
+// Implementation of hook_views_api
 function mn_searchlight_views_api() {
   return array(
     'api' => '2',
