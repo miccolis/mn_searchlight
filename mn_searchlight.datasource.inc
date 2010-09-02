@@ -35,25 +35,33 @@ function mn_searchlight_searchlight_default_datasources() {
       'name' => 'feeds_data_syndication_timestamp',
       'usage' => 'attribute',
     ),
-    'term_data_data_taxonomy_tid' => array(
-      'label_field' => array(
-        'label' => 'Taxonomy: Term (name)',
-        'datatype' => 'text',
-        'table' => 'term_data',
-        'field' => 'name',
-        'name' => 'term_data_data_taxonomy_name',
-        'usage' => 'multivalue',
-      ),
-      'base_table' => 'feeds_data_syndication',
-      'view' => 'mn_searchlight_term_facet:searchlight_multivalue_1',
-      'label' => 'Taxonomy: Term (tid)',
-      'datatype' => 'int',
-      'table' => 'term_data',
-      'field' => 'tid',
-      'name' => 'term_data_data_taxonomy_tid',
-      'usage' => 'multivalue',
-    ),
   );
+
+  $view = views_get_view('mn_searchlight_term_facet');
+  foreach ($view->display as $display) {
+    if ($display->display_plugin == 'searchlight_multivalue') {
+      $options = $display->display_options['searchlight_multivalue'];
+      $searchlight_datasource->fields[$options['override']['name']] = array(
+        'label_field' => array(
+          'label' => $options['override']['label'],
+          'datatype' => 'text',
+          'table' => 'term_data',
+          'field' => 'name',
+          'name' => 'term_data_data_taxonomy_name',
+          'usage' => 'multivalue',
+        ),
+        'base_table' => 'feeds_data_syndication',
+        'view' => $view->name .':'. $display->id,
+        'label' => $options['override']['label'],
+        'datatype' => 'int',
+        'table' => 'term_data',
+        'field' => 'tid',
+        'name' => $options['override']['name'],
+        'usage' => 'multivalue',
+      );
+    }
+  }
+
   $searchlight_datasource->filters = array();
   $searchlight_datasource->options = array(
     'node_access' => TRUE,
