@@ -67,12 +67,8 @@
   }
 
   .searchlight-facet .remove a {
-    /* background:url(images/sprite.png) 0% -530px no-repeat; */
-    display:block;
-    width:20px;
-    height:20px;
-    text-indent:-999px;
-    overflow:hidden;
+    font-style: italic;
+    color: #666 !important;
     }
 
   .searchlight-facet .count {
