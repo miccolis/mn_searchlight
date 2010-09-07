@@ -1,18 +1,18 @@
 /**
  * Collapsibility. See bekwai.js.
  */
-.block-searchlight .item-list {
+#left .block-searchlight .item-list {
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   background:#e8e8e8;
   border:1px solid #ddd;
-  margin:0px 0px 5px;
+  margin: 5px;
   }
 
   .block-searchlight .expanded { background: #fff; }
 
 .block-searchlight .item-list h3 {
-  background:url(images/sprite.png) 100% -500px no-repeat;
+  /* background:url(images/sprite.png) 100% -500px no-repeat; */
   font-size:13px;
   color:#444;
   border:0px;
@@ -22,21 +22,27 @@
 
   .block-searchlight .expanded h3 {
     background:transparent;
-    border-bottom:1px solid #eee;
+    border-bottom:1px solid #fff;
     }
 
 
 .block-searchlight div.item-list ul li:first-child,
 .block-searchlight div.item-list ul li:last-child {
-  border-color:#eee;
+  border-color:#f8f8f8;
   padding:4px 4px 4px 9px;
   }
 
 .block-searchlight div.item-list ul li {
   /* IE 8 Doesn't understand when we have this rule combined with :X-child */
-  border-color:#eee;
   padding:4px 4px 4px 9px;
+  border-bottom:1px solid #f8f8f8;
   } 
+
+.block-searchlight div.item-list ul li a {
+  padding: 0px;
+  background: #E8E8E8 !important;
+  font-weight: normal;
+  }
 
 .block-searchlight .item-list ul { display:none; }
 
@@ -61,7 +67,7 @@
   }
 
   .searchlight-facet .remove a {
-    background:url(images/sprite.png) 0% -530px no-repeat;
+    /* background:url(images/sprite.png) 0% -530px no-repeat; */
     display:block;
     width:20px;
     height:20px;
