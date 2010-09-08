@@ -151,5 +151,84 @@ function mn_searchlight_views_default_views() {
     }
   }
   $views[$view->name] = $view;
+
+  // Trash Facet
+  $view = new view;
+  $view->name = 'mn_searchlight_trash';
+  $view->description = '';
+  $view->tag = '';
+  $view->view_php = '';
+  $view->base_table = 'feeds_data_syndication';
+  $view->is_cacheable = FALSE;
+  $view->api_version = 2;
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+  $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->override_option('relationships', array(
+    'vapi_feeds_data_syndication_id' => array(
+      'label' => 'Votes',
+      'required' => 0,
+      'votingapi' => array(
+        'value_type' => 'mark',
+        'tag' => 'trash',
+      ),
+      'current_user' => 0,
+      'id' => 'vapi_feeds_data_syndication_id',
+      'table' => 'feeds_data_syndication',
+      'field' => 'vapi_feeds_data_syndication_id',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('fields', array(
+    'value' => array(
+      'label' => '',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'set_precision' => 0,
+      'precision' => '0',
+      'decimal' => '.',
+      'separator' => ',',
+      'prefix' => '',
+      'suffix' => '',
+      'appearance' => NULL,
+      'exclude' => 0,
+      'id' => 'value',
+      'table' => 'votingapi_vote',
+      'field' => 'value',
+      'relationship' => 'vapi_feeds_data_syndication_id',
+    ),
+  ));
+  $handler->override_option('access', array(
+    'type' => 'none',
+  ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
+  $handler->override_option('distinct', 1);
+  $handler = $view->new_display('searchlight_multivalue', 'Searchlight multivalue', 'searchlight_multivalue_1');
+  $handler->override_option('searchlight_multivalue', array(
+    'field' => 'votingapi_vote_feeds_data_syndication_mark_trash_value',
+    'label_field' => 'votingapi_vote_feeds_data_syndication_mark_trash_value',
+  ));
+  $views[$view->name] = $view;
+
   return $views;
 }
