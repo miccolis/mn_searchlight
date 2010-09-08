@@ -35,6 +35,17 @@ function mn_searchlight_searchlight_default_datasources() {
       'name' => 'feeds_data_syndication_timestamp',
       'usage' => 'attribute',
     ),
+    'votingapi_vote_feeds_data_syndication_mark_trash_value' => array(
+      'label_field' => array(),
+      'base_table' => 'feeds_data_syndication',
+      'view' => 'mn_searchlight_trash:searchlight_multivalue_1',
+      'label' => 'Votes: Value (value)',
+      'datatype' => 'float',
+      'table' => 'votingapi_vote',
+      'field' => 'value',
+      'name' => 'votingapi_vote_feeds_data_syndication_mark_trash_value',
+      'usage' => 'multivalue',
+    ),
   );
 
   $view = views_get_view('mn_searchlight_term_facet');
