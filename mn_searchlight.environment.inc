@@ -42,7 +42,7 @@ function mn_searchlight_searchlight_default_environments() {
   }
 
   $searchlight_environment->options = array(
-    'facets_label' => 'Search facets',
+    'facets_label' => 'Search filter',
   );
 
   $export['mn_searchlight_syndication'] = $searchlight_environment;
